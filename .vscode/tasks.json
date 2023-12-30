@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Sudoku",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "${workspaceFolder}/src/sudoku.c",
+                "${workspaceFolder}/src/utils.c",
+                "${workspaceFolder}/src/hidden_pairs.c",
+                "${workspaceFolder}/src/hidden_singles.c",
+                "${workspaceFolder}/src/hidden_triples.c",
+                "${workspaceFolder}/src/naked_pairs.c",
+                "${workspaceFolder}/src/naked_triples.c",
+                "-o",
+                "${workspaceFolder}/build/sudoku"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            },
+        },
+    ]
+}

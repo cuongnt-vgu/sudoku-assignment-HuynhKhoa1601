@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "naked_pairs.h": "c",
+        "sudoku.h": "c"
+    }
+}

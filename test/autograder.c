@@ -87,7 +87,6 @@ void load_sudoku_with_candidates(SudokuBoard *p_board, char *textData)
         textData += 2;
     }
 }
-
 void print_string_candidates(Cell *p_cell, char *textData)
 {
     int *candidates = get_candidates(p_cell);
@@ -106,6 +105,7 @@ void print_string_candidates(Cell *p_cell, char *textData)
     sprintf(textData, "%c%c", mapping[left_index], mapping[right_index]);
     free(candidates);
 }
+
 
 void print_sudoku_with_candidates(SudokuBoard *p_board, char *textData)
 {
@@ -145,7 +145,6 @@ int main(int argc, char **argv)
     SudokuBoard *board = malloc(sizeof(SudokuBoard));
     init_sudoku(board);
     load_sudoku_with_candidates(board, argv[1]);
-
     FILE *pipe = fdopen(atoi(argv[3]), "w");
 
     int num_detected = get_method(argv[2])(board);
@@ -155,12 +154,14 @@ int main(int argc, char **argv)
 
     print_sudoku_with_candidates(board, outText);
 
-    fprintf(pipe,
-            "{\n"
-            "    \"num_detects\": %d,\n"
-            "    \"boards\": \"%s\"\n"
-            "}\n",
-            num_detected, outText);
+   fprintf(pipe,
+        "{ \"num_detects\": %d, \"boards\": \"%s\" }\n",
+        num_detected, outText);
+//     printf("Answer");
+//     printf("{ \"num_detects\": %d, \"boards\": \"%s\" }\n",
+//         num_detected, outText);
+
+   fflush(pipe);
 
     free_sudoku(board);
     free(board);

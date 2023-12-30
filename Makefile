@@ -43,12 +43,12 @@ endif
 #
 ASAN ?= 1
 ifeq ($(ASAN),1)
-FLAGS += -fsanitize=address
+# FLAGS += -fsanitize=address
 endif
 
 # disable address sanitizer if we are targeting check-gdb
 ifeq ($(findstring check-gdb,$(MAKECMDGOALS)),check-gdb)
-FLAGS := $(filter-out -fsanitize=address, $(FLAGS))
+# FLAGS := $(filter-out -fsanitize=address, $(FLAGS))
 endif
 
 
@@ -65,7 +65,7 @@ sudoku: $(OBJS) src/sudoku.c
 	$(CC) $(FLAGS) $^ $(LIBS) -o $@ -lm
 
 check: autograder
-	python3 test/autograder.py $(TESTS)
+	@for /l %%x in (1, 1, $(TEST_COUNT)) do @(python3 test/autograder.py %%x)
 
 # this target supports running individual tests (for example, `check-3`)
 # and ranges of tests (for example, `check-5-10`).

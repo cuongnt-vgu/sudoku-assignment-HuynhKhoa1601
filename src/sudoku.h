@@ -35,6 +35,7 @@ void init_sudoku(SudokuBoard *p_board);
 void load_sudoku(SudokuBoard *p_board, char *input_text);
 bool apply_constraint(Cell **p_cells, int value);
 bool is_in_list(Cell **p_array, int size, Cell *p);
+bool is_candidate(Cell *cell, int value);
 void print_candidate_num(SudokuBoard *p_board);
 void print_solution(SudokuBoard *p_board);
 

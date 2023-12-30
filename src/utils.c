@@ -61,7 +61,7 @@ void print_solution(SudokuBoard *p_board)
         for (int j = 0; j < BOARD_SIZE; j++)
         {
             int *candidates = get_candidates(&p_board->data[i][j]);
-            printf("%d", candidates[0]);
+            printf("%d", p_board->data[i][j].value);
             free(candidates);
         }
     }
@@ -188,7 +188,6 @@ bool is_in_list(Cell **p_array, int size, Cell *p)
 int check_solved_cells(SudokuBoard *p_board, Cell ***p_solved_cells)
 {
     int counter = p_board->solved_counter;
-
     for (int i = 0; i < BOARD_SIZE; i++)
     {
         for (int j = 0; j < BOARD_SIZE; j++)
@@ -205,7 +204,27 @@ int check_solved_cells(SudokuBoard *p_board, Cell ***p_solved_cells)
             }
         }
     }
-    *p_solved_cells = &p_board->solved_cells[counter];
+
+    // *p_solved_cells = &p_board->solved_cells[counter];
+    //                   int *p_hidden_singles = get_candidates(&p_board->data[0][0]);
+
+    //         for (int h = 0; h < BOARD_SIZE; h++)
+    //         {
+    //             printf("%d", p_hidden_singles[h]);
+    //         }
+    // printf("%d", BOARD_SIZE);
+    // for (int i = 0; i < BOARD_SIZE; i++)
+    // {
+    //     for (int j = 0; j < BOARD_SIZE; j++)
+    //     {
+    //         Cell *cell = &p_board->data[i][j];
+    //         int *p_hidden_singles = get_candidates(cell);
+    //         printf("%d", cell->fixed);
+
+    //         printf("%c", ' ');
+    //     }
+    //     printf("%c", '\n');
+    // }
     return p_board->solved_counter - counter;
 }
 
@@ -215,7 +234,7 @@ void print_candidate_num(SudokuBoard *p_board)
     {
         for (int j = 0; j < BOARD_SIZE; j++)
         {
-            printf("%d ", p_board->data[i][j].num_candidates);
+            // printf("%d ", p_board->data[i][j].num_candidates);
         }
         printf("\n");
     }
