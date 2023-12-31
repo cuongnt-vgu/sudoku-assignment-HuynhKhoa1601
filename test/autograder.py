@@ -71,9 +71,13 @@ def run_test(test_name, test_parameters):
             test_parameters.get("method"),
             str(w),
         ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         close_fds=False,
         # input=(test_parameters.get("name", "") + "\n").encode(),
     )
+
+
     if results.returncode != 0:
         results.returncode
         eprint("Failure running student code. Marking as failure.")
@@ -84,8 +88,27 @@ def run_test(test_name, test_parameters):
 
     # Get the actual output by reading the results from the pipe that were sent by the autograder
     os.close(w)
-    r = os.fdopen(r)
-    actual_output = json.loads(r.read())
+
+    
+    decoded_output = results.stdout.decode('utf-8')
+    
+    try:
+        actual_output = json.loads(decoded_output)
+        print("Parsed JSON:", actual_output)
+    except json.JSONDecodeError as e:
+        eprint("JSON decoding failed: " + str(e))
+        return False
+    # with os.fdopen(r) as pipe_output:
+    #     output = pipe_output.read()
+    #     print("Result")
+    #     print(output)
+
+    #     try:
+    #         actual_output = json.loads(output)
+    #     except json.JSONDecodeError as e:
+    #         eprint("JSON decoding failed: " + str(e))
+    #         return False
+   
 
     # Loop over keys in the expected output and actual output and print any discrepencies
     failure = False

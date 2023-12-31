@@ -145,7 +145,12 @@ int main(int argc, char **argv)
     SudokuBoard *board = malloc(sizeof(SudokuBoard));
     init_sudoku(board);
     load_sudoku_with_candidates(board, argv[1]);
-    FILE *pipe = fdopen(atoi(argv[3]), "w");
+    FILE *pipe = stdout;
+    if (!pipe) {
+        perror("Debug: fdopen failed");
+        free(board);
+        return EXIT_FAILURE;
+    }
 
     int num_detected = get_method(argv[2])(board);
 
@@ -154,15 +159,11 @@ int main(int argc, char **argv)
 
     print_sudoku_with_candidates(board, outText);
 
-   fprintf(pipe,
+    fprintf(pipe,
         "{ \"num_detects\": %d, \"boards\": \"%s\" }\n",
         num_detected, outText);
-//     printf("Answer");
-//     printf("{ \"num_detects\": %d, \"boards\": \"%s\" }\n",
-//         num_detected, outText);
 
-   fflush(pipe);
-
+    fflush(pipe);
     free_sudoku(board);
     free(board);
     free(outText);
